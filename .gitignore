@@ -24,6 +24,6 @@ logs/
 valhalla-data/
 public/data/isochrones/
 
-# İSPARK scraper database
-data/
+# İSPARK scraper database (sadece root data/ klasörü, public/data/ değil)
+/data/
 *.db
