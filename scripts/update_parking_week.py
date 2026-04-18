@@ -32,7 +32,7 @@ ALPHA = 0.3
 IST_BBOX = {"lat_min": 40.80, "lat_max": 41.35, "lng_min": 28.50, "lng_max": 29.50}
 
 
-def fetch_live():
+def fetch_live(retries=3, timeout=30):
     """Fetch all İSPARK parks with live occupancy."""
     req = urllib.request.Request(
         ISPARK_API,
@@ -41,9 +41,17 @@ def fetch_live():
             "User-Agent": "istanbul-parking-heatmap/1.0",
         },
     )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
-    return data
+    import time
+    for attempt in range(1, retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            return data
+        except Exception as e:
+            print(f"  Attempt {attempt}/{retries} failed: {e}", file=sys.stderr)
+            if attempt < retries:
+                time.sleep(10)
+    raise RuntimeError(f"API unreachable after {retries} attempts")
 
 
 def park_to_block(p):
@@ -109,7 +117,8 @@ def main():
         live_parks = fetch_live()
     except Exception as e:
         print(f"API Error: {e}", file=sys.stderr)
-        sys.exit(1)
+        print("Skipping update — will retry next hour.")
+        sys.exit(0)
     print(f"  Received {len(live_parks)} parks")
 
     # Build live occupancy map
