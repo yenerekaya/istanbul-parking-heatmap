@@ -3,7 +3,7 @@ import type { BlockData, TimeSlot } from "../types";
 import { useBlockDetail } from "../hooks/useBlockDetail";
 import { occupancyToCss, occupancyLabel } from "../lib/colors";
 import { dayName, formatHour, formatOccupancy } from "../lib/format";
-import { getOccupancy, isEnforced, isEnforcedAt, getDataSource, getTimeSlotIndex } from "../lib/occupancy";
+import { getOccupancy, isEnforced, isEnforcedAt, getTimeSlotIndex } from "../lib/occupancy";
 import { deltaToCss, formatDelta } from "../lib/deltaColors";
 
 interface BlockDetailPanelProps {
@@ -15,7 +15,7 @@ interface BlockDetailPanelProps {
 }
 
 export function BlockDetailPanel({ block, timeSlot, onClose, comparing, referenceSlot }: BlockDetailPanelProps) {
-  const { detail, loading } = useBlockDetail(
+  const { loading } = useBlockDetail(
     block?.id ?? null,
     block?.meters ?? 0,
     block?.street ?? "",
@@ -25,8 +25,7 @@ export function BlockDetailPanel({ block, timeSlot, onClose, comparing, referenc
 
   const currentOcc = getOccupancy(block, timeSlot);
   const enforced = isEnforced(block, timeSlot);
-  const source = getDataSource(block, timeSlot);
-  const slots = detail?.slots ?? block.slots;
+  const slots = block.slots;
 
   return (
     <div className="absolute top-0 right-0 bottom-0 z-30 w-80 bg-gray-950/95 backdrop-blur-xl border-l border-gray-800/50 overflow-y-auto panel-slide-in">

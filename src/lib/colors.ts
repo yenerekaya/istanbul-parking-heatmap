@@ -24,13 +24,15 @@ function lerp3(
   ];
 }
 
+const DARK_GREEN: [number, number, number] = [10, 80, 30]; // koyu yeşil (düşük doluluk)
+
 /** Returns [r, g, b] for an occupancy ratio (0-1). Returns gray for no data (< 0). */
 export function occupancyToRgb(occupancy: number): [number, number, number] {
   if (occupancy < 0) return GRAY;
   if (occupancy <= 0.59) {
-    // Pure green, fade brightness slightly with occupancy
+    // Koyu yeşilden parlak yeşile geç (0→%59)
     const t = occupancy / 0.59;
-    return lerp3(GREEN, GREEN, t);
+    return lerp3(DARK_GREEN, GREEN, t);
   }
   if (occupancy <= 0.79) {
     const t = (occupancy - 0.6) / 0.2;

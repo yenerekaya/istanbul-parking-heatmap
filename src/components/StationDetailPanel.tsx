@@ -6,6 +6,6 @@ interface StationDetailPanelProps {
   onClose: () => void;
 }
 
-export function StationDetailPanel({ station, timeSlot, onClose }: StationDetailPanelProps) {
+export function StationDetailPanel({ station: _station, timeSlot: _timeSlot, onClose: _onClose }: StationDetailPanelProps) {
   return null;
 }

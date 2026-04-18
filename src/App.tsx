@@ -20,7 +20,7 @@ import { SearchBar } from "./components/SearchBar";
 import { SearchResults } from "./components/SearchResults";
 import { ComparisonControl } from "./components/ComparisonControl";
 import { IsochroneControl } from "./components/IsochroneControl";
-import { ViewModeToggle } from "./components/ViewModeToggle";
+// import { ViewModeToggle } from "./components/ViewModeToggle";
 import { useSearch } from "./hooks/useSearch";
 import { useComparison } from "./hooks/useComparison";
 import { useIsochrone } from "./hooks/useIsochrone";
@@ -175,18 +175,17 @@ function App() {
     [flyTo],
   );
 
-  const handleViewModeChange = useCallback(
-    (mode: ViewMode) => {
-      setViewMode(mode);
-      // Clear selections when switching modes
-      if (mode === "parking") {
-        setSelectedStation(null);
-      } else {
-        setSelectedBlock(null);
-      }
-    },
-    [setViewMode],
-  );
+  // const handleViewModeChange = useCallback(
+  //   (mode: ViewMode) => {
+  //     setViewMode(mode);
+  //     if (mode === "parking") {
+  //       setSelectedStation(null);
+  //     } else {
+  //       setSelectedBlock(null);
+  //     }
+  //   },
+  //   [setViewMode],
+  // );
 
   // Handle isochrone map click: snap to nearest grid point
   const handleMapClick = useCallback(
